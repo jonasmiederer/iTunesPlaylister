@@ -7,7 +7,9 @@
 #
 
 import plistlib
+import logging
 
+logger = logging.getLogger('iTunesPlaylister')
 
 class Track:
     def __init__(self):
@@ -25,6 +27,7 @@ class Playlist:
         self.id = playlist['Playlist ID']
         self.title = playlist['Name']
         self.songs = self.getSongs()
+        logger.info('Parsing playlist {}'.format(playlist['Name']))
 
     def getSongs(self):
         songs = list()
@@ -33,11 +36,16 @@ class Playlist:
                 track = Track()
                 track.id = song['Track ID']
                 track_obj = self.itlist['Tracks']['{}'.format(track.id)]
+
+                logger.debug('Parsing song {} by {}'.format(track_obj['Name'], track_obj['Artist']))
+
                 track.name = track_obj['Name']
                 track.artist = track_obj['Artist']
                 track.duration = int(track_obj['Total Time'] / 1000)
                 track.path = track_obj['Location']
                 songs.append(track)
+        else:
+            logger.warn('Playlist {} does not contain any songs.'.format(self.pl['Name']))
         return songs
 
 
@@ -47,6 +55,8 @@ class iTunesParser:
         self.playlists = list()
 
     def parse(self):
+        logger.info('Started parsing playlist.')
+
         self.itlist = plistlib.readPlist(self.file)
         for playlist in self.itlist['Playlists']:
             if playlist['Name'] not in (
