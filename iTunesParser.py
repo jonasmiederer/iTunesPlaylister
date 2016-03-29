@@ -1,4 +1,5 @@
-#
+# -*- coding: utf-8 -*-
+
 #  Created by Jonas Miederer.
 #  Date: 27.03.16
 #  Time: 17:44
