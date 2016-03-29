@@ -38,7 +38,7 @@ class Playlist:
                 track.id = song['Track ID']
                 track_obj = self.itlist['Tracks']['{}'.format(track.id)]
 
-                logger.debug('Parsing song {} by {}'.format(track_obj['Name'], track_obj['Artist']))
+                logger.debug('Parsing song {} by {}'.format(track_obj['Name']  if 'Name' in track_obj else '', track_obj['Artist'] if 'Artist' in track_obj else ''))
 
                 track.name = track_obj['Name'] if 'Name' in track_obj else ''
                 track.artist = track_obj['Artist'] if 'Artist' in track_obj else ''
