@@ -9,8 +9,10 @@
 
 import plistlib
 import logging
+import re
 
 logger = logging.getLogger('iTunesPlaylister')
+
 
 class Track:
     def __init__(self):
@@ -38,12 +40,13 @@ class Playlist:
                 track.id = song['Track ID']
                 track_obj = self.itlist['Tracks']['{}'.format(track.id)]
 
-                logger.debug('Parsing song {} by {}'.format(track_obj['Name']  if 'Name' in track_obj else '', track_obj['Artist'] if 'Artist' in track_obj else ''))
+                logger.debug('Parsing song {} by {}'.format(track_obj['Name'] if 'Name' in track_obj else '',
+                                                            track_obj['Artist'] if 'Artist' in track_obj else ''))
 
                 track.name = track_obj['Name'] if 'Name' in track_obj else ''
                 track.artist = track_obj['Artist'] if 'Artist' in track_obj else ''
                 track.duration = int(track_obj['Total Time'] / 1000) if 'Total Time' in track_obj else -1
-                track.path = track_obj['Location']
+                track.path = re.sub(".+?(?=multimedia)", "/share/", track_obj['Location'])
                 songs.append(track)
         else:
             logger.warn('Playlist {} does not contain any songs.'.format(self.pl['Name']))
