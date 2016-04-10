@@ -67,6 +67,6 @@ class iTunesParser:
                     '####!####', 'Musik', 'Musikvideos', 'Leihobjekte', 'Filme', 'Eigene Videos', 'TV-Sendungen',
                     'Podcasts',
                     'iTunes U', 'Bücher', 'Hörbücher', 'PDFs', 'Genius',
-                    'Klassische Musik') and 'iTunesU' not in playlist:
+                    'Klassische Musik', 'Einkäufe', 'Gekauft mit Mein iPod') and 'iTunesU' not in playlist:
                 self.playlists.append(Playlist(playlist, self.itlist))
         return self.playlists
