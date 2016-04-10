@@ -15,6 +15,8 @@ import time
 import argparse
 import os.path
 import sys
+import re
+
 
 logger = logging.getLogger('iTunesPlaylister')
 
@@ -22,7 +24,8 @@ logger = logging.getLogger('iTunesPlaylister')
 def writeFiles(playlists, path):
     for playlist in playlists:
         try:
-            file = open("{}.M3U".format(os.path.join(path, playlist.title)), 'w')
+            path = re.sub('[\-/_]', ' ', path).strip()
+            file = open("{}.m3u".format(os.path.join(path, playlist.title)), 'w')
             file.write("#EXTM3U\n")
             for song in playlist.songs:
                 file.write("#EXTINF:{},{} - {}\n{}\n".format(song.duration, song.artist, song.name, song.path))
