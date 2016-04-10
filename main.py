@@ -24,7 +24,7 @@ logger = logging.getLogger('iTunesPlaylister')
 def writeFiles(playlists, path):
     for playlist in playlists:
         try:
-            path = re.sub('[\-/_]', ' ', path).strip()
+            path = re.sub('[\-/_]', ' ', playlist.title).strip()
             file = open("{}.m3u".format(os.path.join(path, playlist.title)), 'w')
             file.write("#EXTM3U\n")
             for song in playlist.songs:
