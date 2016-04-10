@@ -10,7 +10,6 @@
 import plistlib
 import logging
 import re
-from urllib.parse import quote
 
 logger = logging.getLogger('iTunesPlaylister')
 
@@ -47,7 +46,7 @@ class Playlist:
                 track.name = track_obj['Name'] if 'Name' in track_obj else ''
                 track.artist = track_obj['Artist'] if 'Artist' in track_obj else ''
                 track.duration = int(track_obj['Total Time'] / 1000) if 'Total Time' in track_obj else -1
-                track.path = quote(re.sub(".+?(?=ultimedia)", "/share/M", track_obj['Location']))
+                track.path = re.sub(".+?(?=ultimedia)", "/share/M", track_obj['Location'])
                 songs.append(track)
         else:
             logger.warn('Playlist {} does not contain any songs.'.format(self.pl['Name']))
